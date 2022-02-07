@@ -9,3 +9,13 @@ jdoodle:
 spring:
   config:
     import: tasks.yml
+  datasource:
+    url: jdbc:h2:mem:db
+    driverClassName: org.h2.Driver
+    username: sa
+    password: ENC(ShTCeZ28VKSvN1QV7l0/OaFZe0GEkOfL)
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
