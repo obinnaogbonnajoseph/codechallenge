@@ -1,6 +1,7 @@
 package com.obinnaogbonna.codechallenge.service.impl;
 
 import com.obinnaogbonna.codechallenge.entity.Task;
+import com.obinnaogbonna.codechallenge.model.TaskHttpResponse;
 import com.obinnaogbonna.codechallenge.model.TaskRequest;
 import com.obinnaogbonna.codechallenge.service.PersistenceService;
 import com.obinnaogbonna.codechallenge.service.TaskService;
@@ -11,7 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +26,17 @@ public class TaskServiceImpl implements TaskService {
     private final PersistenceService persistenceService;
 
     @Override
-    public boolean isCorrect(TaskRequest data) throws IOException, RequirementNotMetException, ResourceNotFoundException {
+    public List<Task> fetchAll() {
+        return persistenceService
+                .getTaskRepository()
+                .findAll()
+                .stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Integer getScore(TaskRequest data) throws IOException, RequirementNotMetException, ResourceNotFoundException {
         var taskRequest = this.utilService.getTaskHttpRequest();
         var creditSpent = taskRequest.creditSpent();
         if(creditSpent.getUsed() != null) {
@@ -32,9 +46,18 @@ public class TaskServiceImpl implements TaskService {
                     .orElseThrow(() -> new ResourceNotFoundException("Task does not exist")).getAnswer();
             var codeExecResponse = taskRequest.post(data.getCode());
             if(codeExecResponse.getStatusCode() == 200)
-                return codeExecResponse.getOutput().trim().equals(answer);
+                return calculateScore(answer, codeExecResponse);
             else throw new RequirementNotMetException(codeExecResponse.getError());
         }
-        return false;
+        throw new RequirementNotMetException("Could not process answer. Free credits could not be determined");
+    }
+
+    private Integer calculateScore(String answer, TaskHttpResponse response) {
+        int score = 0;
+        if(answer.equals(response.getOutput().trim())) {
+            score = 20;
+            // add extra points for speed of processing;
+        }
+        return score;
     }
 }

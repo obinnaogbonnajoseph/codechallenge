@@ -23,7 +23,12 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany()
+    @JoinTable(
+            name="USER_TASK",
+            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "TASK_ID", referencedColumnName = "id", unique = true)}
+    )
     private List<Task> tasks;
 
     @Column(name = "score")

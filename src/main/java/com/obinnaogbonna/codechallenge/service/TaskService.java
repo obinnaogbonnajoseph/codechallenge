@@ -6,8 +6,11 @@ import com.obinnaogbonna.codechallenge.util.RequirementNotMetException;
 import com.obinnaogbonna.codechallenge.util.ResourceNotFoundException;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface TaskService {
 
-    public boolean isCorrect(TaskRequest data) throws IOException, RequirementNotMetException, ResourceNotFoundException;
+    public List<Task> fetchAll();
+
+    public Integer getScore(TaskRequest data) throws IOException, RequirementNotMetException, ResourceNotFoundException;
 }
