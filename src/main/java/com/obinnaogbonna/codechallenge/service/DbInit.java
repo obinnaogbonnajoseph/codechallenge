@@ -2,6 +2,8 @@ package com.obinnaogbonna.codechallenge.service;
 
 import com.obinnaogbonna.codechallenge.entity.Task;
 import com.obinnaogbonna.codechallenge.repository.TaskRepository;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -10,16 +12,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class DbInit {
 
-    private PersistenceService persistenceService;
+    private final PersistenceService persistenceService;
 
-    private UtilService utilService;
+    private final UtilService utilService;
 
-    DbInit(PersistenceService persistenceService, UtilService utilService) {
-        this.persistenceService = persistenceService;
-        this.utilService = utilService;
-    }
+    private final ModelMapper modelMapper;
 
     @PostConstruct
     private void postConstruct() {
@@ -29,15 +29,12 @@ public class DbInit {
                 .stream()
                 .map(task -> {
                     Task newTask = new Task();
-                    newTask.setStarterCode(task.getStarterCode());
-                    newTask.setDescription(task.getDescription());
-                    newTask.setAnswer(task.getAnswer());
-                    newTask.setName(task.getName());
+                    modelMapper.map(task, newTask);
                     return newTask;
                 }).toList();
         TaskRepository repo = this.persistenceService.getTaskRepository();
         tasks.forEach(task -> {
-            var optTask = Optional.ofNullable(repo.findByDescription(task.getDescription()));
+            var optTask = Optional.ofNullable(repo.findByName(task.getName()));
             if(optTask.isEmpty())
                 repo.save(task);
         });

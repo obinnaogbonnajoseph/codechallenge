@@ -10,8 +10,14 @@ public class UtilService {
     @Getter
     private TaskList taskList;
 
+    @Getter
+    private TaskHttpRequest taskHttpRequest;
+
     @Autowired
     private void setTaskList(TaskList taskList) {
         this.taskList = taskList;
     }
+
+    @Autowired
+    private void setTaskHttpRequest(TaskHttpRequest taskHttpRequest) { this.taskHttpRequest = taskHttpRequest;}
 }

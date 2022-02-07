@@ -1,9 +1,11 @@
 package com.obinnaogbonna.codechallenge.model;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
 @ConstructorBinding
+@RequiredArgsConstructor
 public class StaticTask {
 
     @Getter
@@ -17,12 +19,5 @@ public class StaticTask {
 
     @Getter
     private final String answer;
-
-    StaticTask(String description, String starterCode, String answer, String name) {
-        this.description = description;
-        this.starterCode = starterCode;
-        this.answer = answer;
-        this.name = name;
-    }
 
 }

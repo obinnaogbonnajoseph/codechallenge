@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    @Query("Select t FROM Task t WHERE t.description = ?1")
-    public Task findByDescription(String value);
+    @Query("Select t FROM Task t WHERE t.name = ?1")
+    public Task findByName(String name);
 }
