@@ -14,5 +14,5 @@ public class TasksTest {
     private TaskList taskList;
 
     @Test
-    void tasksAreLoaded() {assertEquals(taskList.getTasks().size(), 2);}
+    void tasksAreLoaded() {assertEquals(taskList.getTasks().size(), 5);}
 }

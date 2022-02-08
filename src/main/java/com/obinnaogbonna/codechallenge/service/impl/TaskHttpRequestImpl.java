@@ -20,8 +20,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-
 @Service
 public class TaskHttpRequestImpl implements TaskHttpRequest {
 
@@ -42,11 +40,6 @@ public class TaskHttpRequestImpl implements TaskHttpRequest {
     public TaskHttpRequestImpl(Gson gson, Environment environment) {
         this.gson = gson;
         this.environment = environment;
-    }
-
-    @PostConstruct
-    private void postConstruct() {
-        System.setProperty("jasypt.encryptor.password", "salting");
     }
 
     @Override

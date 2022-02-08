@@ -1,7 +1,9 @@
 static:
   tasks:
-    - description: Convert String to CamelCase
-    - starterCode: |
+    - name: CamelCase
+      description: >-
+        Convert given input to CamelCase. Code is written in Java. Implement solution on the mySolution method.
+      starterCode: |-
         public class MyImpl {
           public String mySolution(String val) {
               
@@ -13,4 +15,77 @@ static:
             System.out.println(val);
           }
         }
-    - answer: Hello World
+      answer: Hello World
+    - name: Sort an Array
+      description: >-
+        Sort the given array in ascending order.
+        Return the last value in the sorted array.
+        Code is written in Java. Implement solution on the mySolution method.
+      starterCode: |-
+        public class MyImpl {
+          public String mySolution(String[] arr) {
+
+              return null;
+          }
+
+          public static void main(String[] args) {
+            String[] arr = {"drone", "service", "item", "shield", "axe"};
+            String val = new MyImpl().mySolution(arr);
+            System.out.println(val);
+          }
+        }
+      answer: shield
+    - name: Count Duplicates
+      description: >-
+        Count the duplicates in the array.
+        Return the number of duplicates in the array.
+        Code is written in Java. Implement solution on the mySolution method.
+      starterCode: |-
+        public class MyImpl {
+          public int mySolution(String[] arr) {
+
+              return 0;
+          }
+
+          public static void main(String[] args) {
+            String[] arr = {"drone", "service", "item", "shield", "axe", "item", "service"};
+            String val = new MyImpl().mySolution(arr);
+            System.out.println(val);
+          }
+        }
+      answer: 2
+    - name: Reverse a string
+      description: >-
+        Reverse the given string.
+        Return the reverse of the string.
+        Code is written in Java. Implement solution on the mySolution method.
+      starterCode: |-
+        public class MyImpl {
+          public String mySolution(String val) {
+
+              return "";
+          }
+
+          public static void main(String[] args) {
+            String val = new MyImpl().mySolution("hello world this is good");
+            System.out.println(val);
+          }
+        }
+      answer: doog si siht dlrow olleh
+    - name: Unicode Sum
+      description: >-
+        Return the unicode sum of all characters o the string.
+        Code is written in Java. Implement solution on the mySolution method.
+      starterCode: |-
+        public class MyImpl {
+          public int mySolution(String val) {
+
+              return int;
+          }
+
+          public static void main(String[] args) {
+            String val = new MyImpl().mySolution("java");
+            System.out.println(val);
+          }
+        }
+      answer: 418

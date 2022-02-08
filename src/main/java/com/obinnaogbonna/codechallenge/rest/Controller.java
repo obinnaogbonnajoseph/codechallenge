@@ -24,9 +24,9 @@ import java.util.List;
 @RequestMapping(value = "/task", produces = "application/json", consumes = "application/json")
 public class Controller {
 
-    private final UserService userService;
+    private UserService userService;
 
-    private final TaskService taskService;
+    private TaskService taskService;
 
     @Autowired
     public Controller(UserService userService, TaskService taskService) {

@@ -22,6 +22,7 @@ public class Task {
     @Column(name = "description")
     private String description;
 
+    @Lob
     @Column(name = "initCode")
     private String starterCode;
 
