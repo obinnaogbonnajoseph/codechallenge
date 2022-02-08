@@ -6,8 +6,8 @@ import com.obinnaogbonna.codechallenge.model.UserRequest;
 import com.obinnaogbonna.codechallenge.model.UsersResponse;
 import com.obinnaogbonna.codechallenge.service.PersistenceService;
 import com.obinnaogbonna.codechallenge.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,6 @@ import java.util.Optional;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final PersistenceService persistenceService;
@@ -27,13 +26,18 @@ public class UserServiceImpl implements UserService {
 
     private static final int PAGE_SIZE = 10;
 
+    @Autowired
+    public UserServiceImpl(PersistenceService persistenceService, ModelMapper modelMapper) {
+        this.persistenceService = persistenceService;
+        this.modelMapper = modelMapper;
+    }
+
     @Override
     public UsersResponse findAllAndSortByScore(int page) {
         var repo = persistenceService.getUserRepository();
         var users =  repo
-                .findAllByScore(PageRequest.of((page - 1), PAGE_SIZE, Sort.by("score").descending()));
-        var total = repo.count();
-        return new UsersResponse(users, (int) total);
+                .findAll(PageRequest.of((page - 1), PAGE_SIZE, Sort.by("score").descending()));
+        return new UsersResponse(users.getContent(), users.getTotalPages());
     }
 
     @Override

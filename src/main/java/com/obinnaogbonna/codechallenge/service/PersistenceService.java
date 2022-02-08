@@ -16,10 +16,10 @@ public class PersistenceService {
     private UserRepository userRepository;
 
     @Autowired
-    private void setTaskRepository(TaskRepository taskRepository) {
+    public void setTaskRepository(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 
     @Autowired
-    private void setUserRepository(UserRepository userRepository) { this.userRepository = userRepository;}
+    public void setUserRepository(UserRepository userRepository) { this.userRepository = userRepository;}
 }

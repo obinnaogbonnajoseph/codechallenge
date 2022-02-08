@@ -14,8 +14,8 @@ import com.obinnaogbonna.codechallenge.service.TaskHttpRequest;
 
 import com.obinnaogbonna.codechallenge.util.HttpMethod;
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 
 @Service
-@RequiredArgsConstructor
 public class TaskHttpRequestImpl implements TaskHttpRequest {
 
     @Value("${jdoodle.clientId}")
@@ -39,9 +38,15 @@ public class TaskHttpRequestImpl implements TaskHttpRequest {
 
     private final Environment environment;
 
+    @Autowired
+    public TaskHttpRequestImpl(Gson gson, Environment environment) {
+        this.gson = gson;
+        this.environment = environment;
+    }
+
     @PostConstruct
     private void postConstruct() {
-        System.setProperty("jasypt.encrypt.password", "salting");
+        System.setProperty("jasypt.encryptor.password", "salting");
     }
 
     @Override

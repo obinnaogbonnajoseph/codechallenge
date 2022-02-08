@@ -8,7 +8,7 @@ import com.obinnaogbonna.codechallenge.service.TaskService;
 import com.obinnaogbonna.codechallenge.service.UtilService;
 import com.obinnaogbonna.codechallenge.util.RequirementNotMetException;
 import com.obinnaogbonna.codechallenge.util.ResourceNotFoundException;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -18,12 +18,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
 
     private final UtilService utilService;
 
     private final PersistenceService persistenceService;
+
+    @Autowired
+    public TaskServiceImpl(UtilService utilService, PersistenceService persistenceService) {
+        this.persistenceService = persistenceService;
+        this.utilService = utilService;
+    }
 
     @Override
     public List<Task> fetchAll() {

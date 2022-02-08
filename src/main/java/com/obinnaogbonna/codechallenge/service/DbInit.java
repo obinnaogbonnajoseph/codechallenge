@@ -2,17 +2,15 @@ package com.obinnaogbonna.codechallenge.service;
 
 import com.obinnaogbonna.codechallenge.entity.Task;
 import com.obinnaogbonna.codechallenge.repository.TaskRepository;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
-@RequiredArgsConstructor
 public class DbInit {
 
     private final PersistenceService persistenceService;
@@ -20,6 +18,13 @@ public class DbInit {
     private final UtilService utilService;
 
     private final ModelMapper modelMapper;
+
+    @Autowired
+    public DbInit(PersistenceService persistenceService, UtilService utilService, ModelMapper modelMapper) {
+        this.persistenceService = persistenceService;
+        this.utilService = utilService;
+        this.modelMapper = modelMapper;
+    }
 
     @PostConstruct
     private void postConstruct() {

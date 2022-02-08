@@ -1,7 +1,12 @@
+## jasypt
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
+
 ## jdoodle
 jdoodle:
-  clientId: ENC(uy0JDXphI6ovLTnuuy6a3d26MHn6pPfaCEFRGxiIONSMif5Kr79ZhNnT+udK3zIz)
-  clientSecret: ENC(+PaJL65ruh7ZW7lFGfrlJhd6XVzUc5lMuo/zO5jleFdkyrIPBmmDR84LU7kRMLMsJEhLFNkTyzKv+fSfJ8+78yb+TxYUBpN/IQwX98GwU4E=)
+  clientId: DEC(+wxCajnL0+wfbvX5IEbvkUPFw98QeHZ39DEvdCWSdPFzmKygWK6OnO4JaWBdHKv0)
+  clientSecret: DEC(fGEHde1xx7KPrJqOqwYYwlaXl+zg6hd/FeFH16PApJN9T0jHg0o4IkcfcgNXsuSZj2Yqn9IDYnB1xZET+FgAW8INgOvDQQ7qlSlhz1/jmfY=)
   url: https://api.jdoodle.com/v1/execute
   creditSpentUrl: https://api.jdoodle.com/v1/credit-spent
 
@@ -13,7 +18,7 @@ spring:
     url: jdbc:h2:mem:db
     driverClassName: org.h2.Driver
     username: sa
-    password: ENC(ShTCeZ28VKSvN1QV7l0/OaFZe0GEkOfL)
+    password: DEC(vvCyPH6fiCFF0WWHowib5IP4B6JMb2JT)
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
   h2:

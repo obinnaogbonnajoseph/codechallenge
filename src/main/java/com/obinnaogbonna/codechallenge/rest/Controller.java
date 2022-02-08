@@ -10,9 +10,9 @@ import com.obinnaogbonna.codechallenge.service.TaskService;
 import com.obinnaogbonna.codechallenge.service.UserService;
 import com.obinnaogbonna.codechallenge.util.RequirementNotMetException;
 import com.obinnaogbonna.codechallenge.util.ResourceNotFoundException;
-import lombok.RequiredArgsConstructor;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,12 +22,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/task", produces = "application/json", consumes = "application/json")
-@RequiredArgsConstructor
 public class Controller {
 
     private final UserService userService;
 
     private final TaskService taskService;
+
+    @Autowired
+    public Controller(UserService userService, TaskService taskService) {
+        this.userService = userService;
+        this.taskService = taskService;
+    }
 
     @PostMapping()
     public ResponseEntity<?> submit(@NotNull @Valid @RequestBody RequestDto dto) throws IOException,
