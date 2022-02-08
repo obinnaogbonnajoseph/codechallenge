@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.obinnaogbonna.codechallenge.model.TaskHttpResponse;
 import com.obinnaogbonna.codechallenge.service.TaskHttpRequest;
 
@@ -32,13 +32,10 @@ public class TaskHttpRequestImpl implements TaskHttpRequest {
     @Setter(AccessLevel.PRIVATE)
     private String url;
 
-    private final Gson gson;
-
     private final Environment environment;
 
     @Autowired
-    public TaskHttpRequestImpl(Gson gson, Environment environment) {
-        this.gson = gson;
+    public TaskHttpRequestImpl(Environment environment) {
         this.environment = environment;
     }
 
@@ -65,12 +62,24 @@ public class TaskHttpRequestImpl implements TaskHttpRequest {
     }
 
     private TaskHttpResponse getOutput(HttpURLConnection hpCon) throws IOException {
-        var bufferedReader = new BufferedReader(new InputStreamReader(hpCon.getInputStream()));
-        String output;
-        while ((output = bufferedReader.readLine()) != null) {
-            System.out.println(output);
+        BufferedReader bufferedReader = null;
+        var stringBuilder = new StringBuilder();
+        if(hpCon.getResponseCode() == 200) {
+            bufferedReader = new BufferedReader(new InputStreamReader(hpCon.getInputStream()));
+            String output;
+            while ((output = bufferedReader.readLine()) != null) {
+                stringBuilder.append(output);
+            }
+        } else {
+            bufferedReader = new BufferedReader(new InputStreamReader(hpCon.getErrorStream()));
+            String errorOutput;
+            while ((errorOutput = bufferedReader.readLine()) != null) {
+                stringBuilder.append(errorOutput);
+            }
         }
-        return gson.fromJson(output, TaskHttpResponse.class);
+        String out = convertToJsonString(stringBuilder.toString());
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(out, TaskHttpResponse.class);
     }
 
     private HttpURLConnection openConnection(HttpMethod method) throws IOException {
@@ -116,17 +125,7 @@ public class TaskHttpRequestImpl implements TaskHttpRequest {
             .trim();
     }
 
-//    public static void main(String[] args) {
-//        try {
-//            new TaskHttpRequestImpl().post("""
-//                public class MyImpl {
-//                    public static void main(String[] args) {
-//                        System.out.print("Hello World");
-//                    }}
-//            """);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-    
+    private String convertToJsonString(String val) {
+        return val.replaceAll("\"", "\\\"");
+    }
 }

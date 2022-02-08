@@ -62,6 +62,9 @@ public class TaskServiceImpl implements TaskService {
         if(answer.equals(response.getOutput().trim())) {
             score = 20;
             // add extra points for speed of processing;
+            if(Double.parseDouble(response.getCpuTime()) <= 0.05) {
+                score += 5;
+            }
         }
         return score;
     }

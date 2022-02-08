@@ -1,7 +1,6 @@
 package com.obinnaogbonna.codechallenge.rest;
 
 import com.obinnaogbonna.codechallenge.entity.Task;
-import com.obinnaogbonna.codechallenge.entity.User;
 import com.obinnaogbonna.codechallenge.model.RequestDto;
 import com.obinnaogbonna.codechallenge.model.TaskRequest;
 import com.obinnaogbonna.codechallenge.model.UserRequest;
@@ -24,15 +23,11 @@ import java.util.List;
 @RequestMapping(value = "/task", produces = "application/json", consumes = "application/json")
 public class Controller {
 
+    @Autowired
     private UserService userService;
 
-    private TaskService taskService;
-
     @Autowired
-    public Controller(UserService userService, TaskService taskService) {
-        this.userService = userService;
-        this.taskService = taskService;
-    }
+    private TaskService taskService;
 
     @PostMapping()
     public ResponseEntity<?> submit(@NotNull @Valid @RequestBody RequestDto dto) throws IOException,
