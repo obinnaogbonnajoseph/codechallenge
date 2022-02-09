@@ -1,10 +1,7 @@
 package com.obinnaogbonna.codechallenge.rest;
 
 import com.obinnaogbonna.codechallenge.entity.Task;
-import com.obinnaogbonna.codechallenge.model.RequestDto;
-import com.obinnaogbonna.codechallenge.model.TaskRequest;
-import com.obinnaogbonna.codechallenge.model.UserRequest;
-import com.obinnaogbonna.codechallenge.model.UsersResponse;
+import com.obinnaogbonna.codechallenge.model.*;
 import com.obinnaogbonna.codechallenge.service.TaskService;
 import com.obinnaogbonna.codechallenge.service.UserService;
 import com.obinnaogbonna.codechallenge.util.RequirementNotMetException;
@@ -12,6 +9,7 @@ import com.obinnaogbonna.codechallenge.util.ResourceNotFoundException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,17 +37,24 @@ public class Controller {
             userRequest.setScore(score);
             userService.update(userRequest);
         }
-        return ResponseEntity.ok("");
+        return new ResponseEntity<>("", HttpStatus.OK);
     }
 
     @GetMapping()
-    public ResponseEntity<List<Task>> tasks() {
-        return ResponseEntity.ok(taskService.fetchAll());
+    public ResponseEntity<List<TaskResponse>> tasks() {
+
+        var tasksResponse = taskService.fetchAll()
+                        .stream()
+                        .map(task -> {
+                            return new TaskResponse(task.getName(), task.getStarterCode(), task.getDescription());
+                        }).toList();
+        return new ResponseEntity<>(tasksResponse, HttpStatus.OK);
     }
 
     @GetMapping("winners/{page}")
     public ResponseEntity<UsersResponse> winners(@PathVariable int page) {
-        return ResponseEntity.ok(this.userService.findAllAndSortByScore(page));
+        var usersReponse = this.userService.findAllAndSortByScore(page);
+        return new ResponseEntity<>(usersReponse, HttpStatus.OK);
     }
 
 }

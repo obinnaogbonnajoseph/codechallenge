@@ -1,0 +1,6 @@
+<a [routerLink]="link"
+  routerLinkActive
+  #rla="routerLinkActive"
+  class="flex flex-row justify-center items-center p-2 text-white font-serif uppercase text-sm {{ rla.isActive ? 'bg-slate-600 border-0' : 'bg-transparent border-white border-2'}}">
+  <ng-content></ng-content>
+</a>
