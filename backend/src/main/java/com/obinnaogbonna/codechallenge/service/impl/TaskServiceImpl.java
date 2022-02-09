@@ -41,6 +41,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public Task findByName(String name) throws ResourceNotFoundException {
+        return Optional.ofNullable(persistenceService.getTaskRepository()
+                .findByName(name))
+                .orElseThrow(() -> new ResourceNotFoundException("Task does not exist"));
+    }
+
+    @Override
     public Integer getScore(TaskRequest data) throws IOException, RequirementNotMetException, ResourceNotFoundException {
         var taskRequest = this.utilService.getTaskHttpRequest();
         var creditSpent = taskRequest.creditSpent();

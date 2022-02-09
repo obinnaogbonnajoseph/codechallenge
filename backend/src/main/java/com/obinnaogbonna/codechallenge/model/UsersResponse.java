@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UsersResponse {
 
-    private List<User> users;
+    private List<UserResponse> users;
 
     private int total;
 }

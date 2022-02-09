@@ -12,7 +12,7 @@ export interface SubmitTask {
 
 export interface User {
   name: string;
-  tasks: CodeTask;
+  tasks: CodeTask[];
   score: number;
 }
 

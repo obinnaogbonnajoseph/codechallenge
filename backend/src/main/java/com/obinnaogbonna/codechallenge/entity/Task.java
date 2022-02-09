@@ -2,7 +2,10 @@ package com.obinnaogbonna.codechallenge.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "task")
@@ -28,5 +31,9 @@ public class Task {
 
     @Column(name = "answer")
     private String answer;
+
+    @ManyToMany(mappedBy = "tasks")
+    @JsonManagedReference
+    List<User> users;
     
 }

@@ -3,6 +3,7 @@ package com.obinnaogbonna.codechallenge.service.impl;
 import com.obinnaogbonna.codechallenge.entity.Task;
 import com.obinnaogbonna.codechallenge.entity.User;
 import com.obinnaogbonna.codechallenge.model.UserRequest;
+import com.obinnaogbonna.codechallenge.model.UserResponse;
 import com.obinnaogbonna.codechallenge.model.UsersResponse;
 import com.obinnaogbonna.codechallenge.service.PersistenceService;
 import com.obinnaogbonna.codechallenge.service.UserService;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,8 +38,14 @@ public class UserServiceImpl implements UserService {
     public UsersResponse findAllAndSortByScore(int page) {
         var repo = persistenceService.getUserRepository();
         var users =  repo
-                .findAll(PageRequest.of((page - 1), PAGE_SIZE, Sort.by("score").descending()));
-        return new UsersResponse(users.getContent(), users.getTotalPages());
+                .findAll(PageRequest.of((page - 1), PAGE_SIZE, Sort.by("score").descending()))
+                .stream()
+                .map(user -> {
+                    UserResponse userResponse = new UserResponse();
+                    modelMapper.map(user, userResponse);
+                    return userResponse;
+                }).toList();
+        return new UsersResponse(users, (int)repo.count());
     }
 
     @Override

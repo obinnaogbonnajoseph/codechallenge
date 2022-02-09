@@ -15,6 +15,8 @@ export class SolveComponent implements OnInit {
 
   submitText = 'Submit';
 
+  error = false;
+
   form = this.fb.group({
     username: [this.username, Validators.required],
     description: [''],
@@ -36,6 +38,10 @@ export class SolveComponent implements OnInit {
       description: val?.description ?? '',
       code: val?.code ?? ''
     })
+    if (this.error) {
+      this.submitText = "Submit";
+      this.error = false;
+    }
   }
 
   getTasks(): void {
@@ -51,7 +57,11 @@ export class SolveComponent implements OnInit {
       code: this.form.get('code')?.value ?? ''
     }
     this.componentService.submit(data).subscribe({
-      complete: () => this.router.navigate(['/result'])
+      complete: () => this.router.navigate(['/result']),
+      error: _ => {
+        this.submitText = "Could not submit."
+        this.error = true;
+      }
     })
   }
 

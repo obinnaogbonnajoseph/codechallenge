@@ -12,5 +12,7 @@ public interface TaskService {
 
     public List<Task> fetchAll();
 
+    public Task findByName(String name) throws ResourceNotFoundException;
+
     public Integer getScore(TaskRequest data) throws IOException, RequirementNotMetException, ResourceNotFoundException;
 }

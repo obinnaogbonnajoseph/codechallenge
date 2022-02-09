@@ -1,5 +1,6 @@
 package com.obinnaogbonna.codechallenge.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,12 +24,13 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @OneToMany()
+    @ManyToMany()
     @JoinTable(
             name="USER_TASK",
-            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "TASK_ID", referencedColumnName = "id", unique = true)}
+            joinColumns = {@JoinColumn(name = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "TASK_ID")}
     )
+    @JsonBackReference
     private List<Task> tasks;
 
     @Column(name = "score")

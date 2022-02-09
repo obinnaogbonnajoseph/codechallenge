@@ -34,6 +34,8 @@ public class Controller {
         TaskRequest taskRequest = new TaskRequest(dto.getTaskName(), dto.getCode(), "");
         if(userService.isNewTask(userRequest.getName(), taskRequest.getName())) {
             Integer score = taskService.getScore(taskRequest);
+            Task task = taskService.findByName(dto.getTaskName());
+            userRequest.setTasks(Collections.singletonList(task));
             userRequest.setScore(score);
             userService.update(userRequest);
         }
@@ -53,8 +55,8 @@ public class Controller {
 
     @GetMapping("winners/{page}")
     public ResponseEntity<UsersResponse> winners(@PathVariable int page) {
-        var usersReponse = this.userService.findAllAndSortByScore(page);
-        return new ResponseEntity<>(usersReponse, HttpStatus.OK);
+        var usersResponse = this.userService.findAllAndSortByScore(page);
+        return new ResponseEntity<>(usersResponse, HttpStatus.OK);
     }
 
 }

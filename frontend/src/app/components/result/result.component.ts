@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/model/models';
+import { CodeTask, User } from 'src/app/model/models';
 import { ComponentService } from 'src/app/service/component.service';
 
 @Component({
@@ -19,7 +19,12 @@ export class ResultComponent implements OnInit {
     this.service.getResult(1).subscribe(({ users, total }) => {
       this.winners = users;
       this.total = total;
+      console.table(this.winners)
     })
+  }
+
+  getTaskNames(tasks: CodeTask[]): string {
+    return tasks.map(task => task.name).join(", ")
   }
 
 }
