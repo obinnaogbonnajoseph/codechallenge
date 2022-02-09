@@ -1,9 +1,0 @@
-## jdoodle
-jdoodle:
-  clientId: ENC(uy0JDXphI6ovLTnuuy6a3d26MHn6pPfaCEFRGxiIONSMif5Kr79ZhNnT+udK3zIz)
-  clientSecret: ENC(+PaJL65ruh7ZW7lFGfrlJhd6XVzUc5lMuo/zO5jleFdkyrIPBmmDR84LU7kRMLMsJEhLFNkTyzKv+fSfJ8+78yb+TxYUBpN/IQwX98GwU4E=)
-
-## spring
-spring:
-  config:
-    import: tasks.yml

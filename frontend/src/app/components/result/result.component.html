@@ -1,0 +1,15 @@
+<table class="w-full">
+  <tr class="bg-blue-600 text-white">
+    <th class="p-3">Name</th>
+    <th>Score</th>
+    <th>Tasks</th>
+  </tr>
+  <tbody>
+    <tr class="bg-white text-black w-full mb-2 {{isFirst ? 'border-b-2 border-b-emerald-400' : 'border-y-2 border-y-emerald-400'}}"
+      *ngFor="let user of winners; first as isFirst">
+      <td class="text-center p-2">{{user.name}}</td>
+      <td class="text-center">{{user.score}}</td>
+      <td class="text-center">{{getTaskNames(user.tasks)}}</td>
+    </tr>
+  </tbody>
+</table>

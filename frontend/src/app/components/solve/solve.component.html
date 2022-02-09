@@ -1,0 +1,37 @@
+<div class="max-w-md">
+  <form [formGroup]="form"
+    (submit)="submit()"
+    class="grid grid-cols-1 gap-6">
+    <label class="flex flex-row justify-between gap-6 md:gap-14">
+      <span>Name</span>
+      <input formControlName="username"
+        type="text"
+        class="flex-1 border-2 border-emerald-400 p-2">
+    </label>
+    <label class="flex flex-row justify-between gap-6 md:gap-14">
+      <span>Select Task</span>
+      <select formControlName="task"
+        class="flex-1 border-2 border-emerald-400">
+        <option defaultSelected>Select Task</option>
+        <option [ngValue]="task"
+          *ngFor="let task of tasks">{{task.name}}</option>
+      </select>
+    </label>
+    <label class="flex flex-row justify-between gap-6 md:gap-14">
+      <span>Description</span>
+      <p class="flex-1 p-0"
+        [innerText]="description">
+      </p>
+    </label>
+    <label class="flex flex-row justify-between gap-6 md:gap-14">
+      <span>Solution Code</span>
+      <textarea formControlName="code"
+        class="flex-1 border-2 border-emerald-400 p-2"
+        rows="5"
+        cols="40"></textarea>
+    </label>
+    <button type="submit"
+      [disabled]="!this.form.valid"
+      class="{{error ? 'bg-red-500' : 'bg-slate-600'}} disabled:bg-gray-400 p-2 text-white justify-self-end">{{submitText}}</button>
+  </form>
+</div>
