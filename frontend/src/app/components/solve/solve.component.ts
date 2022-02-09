@@ -32,12 +32,10 @@ export class SolveComponent implements OnInit {
   }
 
   updateForm(val: CodeTask): void {
-    if (val && val.code) {
-      this.form.patchValue({
-        description: val.description,
-        code: val.code
-      })
-    }
+    this.form.patchValue({
+      description: val?.description ?? '',
+      code: val?.code ?? ''
+    })
   }
 
   getTasks(): void {

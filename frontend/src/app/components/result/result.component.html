@@ -1,1 +1,13 @@
-<p>result works!</p>
+<div class="flex flex-col max-w-md">
+  <div class="flex flex-row justify-around items-center p-3 bg-blue-600 text-white w-full">
+    <span>Name</span>
+    <span>Score</span>
+    <span>Tasks</span>
+  </div>
+  <div class="flex flex-row justify-around items-center p-3 bg-white text-black w-full mb-2"
+    *ngFor="let user of winners">
+    <span>{{user.name}}</span>
+    <span>{{user.score}}</span>
+    <span>{{user.name}}</span>
+  </div>
+</div>

@@ -9,3 +9,14 @@ export interface SubmitTask {
   taskName: string;
   code: string;
 }
+
+export interface User {
+  name: string;
+  tasks: CodeTask;
+  score: number;
+}
+
+export interface Result {
+  users: User[];
+  total: number;
+}

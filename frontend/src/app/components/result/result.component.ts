@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/model/models';
+import { ComponentService } from 'src/app/service/component.service';
 
 @Component({
   selector: 'app-result',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResultComponent implements OnInit {
 
-  constructor() { }
+  winners: User[] = [];
+
+  total = 0;
+
+  constructor(private service: ComponentService) { }
 
   ngOnInit(): void {
+    this.service.getResult(1).subscribe(({ users, total }) => {
+      this.winners = users;
+      this.total = total;
+    })
   }
 
 }
