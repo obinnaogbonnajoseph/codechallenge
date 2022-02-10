@@ -25,7 +25,7 @@ static:
         public class MyImpl {
           public String mySolution(String[] arr) {
 
-              return null;
+              return "";
           }
 
           public static void main(String[] args) {
@@ -49,7 +49,7 @@ static:
 
           public static void main(String[] args) {
             String[] arr = {"drone", "service", "item", "shield", "axe", "item", "service"};
-            String val = new MyImpl().mySolution(arr);
+            int val = new MyImpl().mySolution(arr);
             System.out.println(val);
           }
         }
@@ -84,7 +84,7 @@ static:
           }
 
           public static void main(String[] args) {
-            String val = new MyImpl().mySolution("java");
+            int val = new MyImpl().mySolution("java");
             System.out.println(val);
           }
         }
