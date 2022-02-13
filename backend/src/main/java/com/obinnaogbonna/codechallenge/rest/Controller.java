@@ -27,9 +27,10 @@ public class Controller {
     @Autowired
     private TaskService taskService;
 
-    @PostMapping()
+    @PostMapping("submit")
     public ResponseEntity<?> submit(@NotNull @Valid @RequestBody RequestDto dto) throws IOException,
             ResourceNotFoundException, RequirementNotMetException {
+        long start = System.nanoTime();
         UserRequest userRequest = new UserRequest(dto.getUserName(), 0, Collections.emptyList());
         TaskRequest taskRequest = new TaskRequest(dto.getTaskName(), dto.getCode(), "");
         if(userService.isNewTask(userRequest.getName(), taskRequest.getName())) {
@@ -39,6 +40,9 @@ public class Controller {
             userRequest.setScore(score);
             userService.update(userRequest);
         }
+        long endTime = System.nanoTime();
+        long duration = (endTime - start) / 1_000_000_000;
+        System.out.println("*** Time taken *** " + duration);
         return new ResponseEntity<>("", HttpStatus.OK);
     }
 

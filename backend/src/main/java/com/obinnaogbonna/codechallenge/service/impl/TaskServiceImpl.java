@@ -50,18 +50,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Integer getScore(TaskRequest data) throws IOException, RequirementNotMetException, ResourceNotFoundException {
         var taskRequest = this.utilService.getTaskHttpRequest();
-        var creditSpent = taskRequest.creditSpent();
-        if(creditSpent.getUsed() != null) {
-            if(creditSpent.getUsed() >= 200)
-                throw new RequirementNotMetException("Free credit use exceeded");
-            var answer = Optional.of(persistenceService.getTaskRepository().findByName(data.getName()))
-                    .orElseThrow(() -> new ResourceNotFoundException("Task does not exist")).getAnswer();
-            var codeExecResponse = taskRequest.post(data.getCode());
-            if(codeExecResponse.getStatusCode() == 200)
-                return calculateScore(answer, codeExecResponse);
-            else throw new RequirementNotMetException(codeExecResponse.getError());
-        }
-        throw new RequirementNotMetException("Could not process answer. Free credits could not be determined");
+        var answer = Optional.of(persistenceService.getTaskRepository().findByName(data.getName()))
+                .orElseThrow(() -> new ResourceNotFoundException("Task does not exist")).getAnswer();
+        var codeExecResponse = taskRequest.post(data.getCode());
+        if(codeExecResponse.getStatusCode() == 200)
+            return calculateScore(answer, codeExecResponse);
+        else throw new RequirementNotMetException(codeExecResponse.getError());
     }
 
     private Integer calculateScore(String answer, TaskHttpResponse response) {
