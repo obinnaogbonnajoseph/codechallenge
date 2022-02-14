@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class Controller {
 
     @PostMapping("submit")
     public ResponseEntity<?> submit(@NotNull @Valid @RequestBody RequestDto dto) throws IOException,
-            ResourceNotFoundException, RequirementNotMetException {
+            ResourceNotFoundException, RequirementNotMetException, URISyntaxException, InterruptedException {
         long start = System.nanoTime();
         UserRequest userRequest = new UserRequest(dto.getUserName(), 0, Collections.emptyList());
         TaskRequest taskRequest = new TaskRequest(dto.getTaskName(), dto.getCode(), "");

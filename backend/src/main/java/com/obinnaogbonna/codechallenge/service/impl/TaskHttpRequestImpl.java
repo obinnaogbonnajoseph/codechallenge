@@ -13,6 +13,7 @@ import com.obinnaogbonna.codechallenge.model.TaskHttpResponse;
 import com.obinnaogbonna.codechallenge.service.TaskHttpRequest;
 
 import com.obinnaogbonna.codechallenge.util.HttpMethod;
+import com.obinnaogbonna.codechallenge.util.TaskHttp;
 import lombok.AccessLevel;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +22,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TaskHttpRequestImpl implements TaskHttpRequest {
-
-    @Value("${jdoodle.clientId}")
-    private String clientId;
-
-    @Value("${jdoodle.clientSecret}")
-    private String clientSecret;
-
-    @Setter(AccessLevel.PRIVATE)
-    private String url;
+public class TaskHttpRequestImpl extends TaskHttp implements TaskHttpRequest {
 
     private final Environment environment;
 
@@ -61,6 +53,21 @@ public class TaskHttpRequestImpl implements TaskHttpRequest {
         return getOutput(hpCon);
     }
 
+    private HttpURLConnection openConnection(HttpMethod method) throws IOException {
+        URL hpUrl = new URL(getUrl());
+        HttpURLConnection hpCon = (HttpURLConnection) hpUrl.openConnection();
+        hpCon.setDoOutput(true);
+        hpCon.setRequestMethod(method.getName());
+        hpCon.setRequestProperty("Content-Type", "application/json");
+        return hpCon;
+    }
+
+    private void writePostBody(String body, HttpURLConnection hpCon) throws IOException {
+        OutputStream out = hpCon.getOutputStream();
+        out.write(body.getBytes());
+        out.flush();
+    }
+
     private TaskHttpResponse getOutput(HttpURLConnection hpCon) throws IOException {
         BufferedReader bufferedReader = null;
         var stringBuilder = new StringBuilder();
@@ -77,55 +84,6 @@ public class TaskHttpRequestImpl implements TaskHttpRequest {
                 stringBuilder.append(errorOutput);
             }
         }
-        String out = convertToJsonString(stringBuilder.toString());
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(out, TaskHttpResponse.class);
-    }
-
-    private HttpURLConnection openConnection(HttpMethod method) throws IOException {
-        URL hpUrl = new URL(url);
-        HttpURLConnection hpCon = (HttpURLConnection) hpUrl.openConnection();
-        hpCon.setDoOutput(true);
-        hpCon.setRequestMethod(method.getName());
-        hpCon.setRequestProperty("Content-Type", "application/json");
-        return hpCon;
-    }
-
-    private void writePostBody(String body, HttpURLConnection hpCon) throws IOException {
-        OutputStream out = hpCon.getOutputStream();
-        out.write(body.getBytes());
-        out.flush();
-    }
-
-    private String getBody(String script) {
-        return String.format(""" 
-            {
-                "clientId": "%s",
-                "clientSecret": "%s",
-                "script": "%s",
-                "language": "java",
-                "versionIndex": "4"
-            }
-        """, clientId, clientSecret, formatScript(script));
-    }
-
-    private String getBody() {
-        return String.format(""" 
-            {
-                "clientId": "%s",
-                "clientSecret": "%s"
-            }
-        """, clientId, clientSecret);
-    }
-
-    private String formatScript(String script) {
-        return script
-            .replaceAll("\\s", " ")
-            .replaceAll("\"", "\\\\\"")
-            .trim();
-    }
-
-    private String convertToJsonString(String val) {
-        return val.replaceAll("\"", "\\\"");
+        return convertStringToResponse(stringBuilder.toString());
     }
 }

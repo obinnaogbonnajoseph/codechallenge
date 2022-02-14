@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -48,7 +49,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Integer getScore(TaskRequest data) throws IOException, RequirementNotMetException, ResourceNotFoundException {
+    public Integer getScore(TaskRequest data) throws IOException, RequirementNotMetException, ResourceNotFoundException, URISyntaxException, InterruptedException {
         var taskRequest = this.utilService.getTaskHttpRequest();
         var answer = Optional.of(persistenceService.getTaskRepository().findByName(data.getName()))
                 .orElseThrow(() -> new ResourceNotFoundException("Task does not exist")).getAnswer();

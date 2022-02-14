@@ -6,6 +6,7 @@ import com.obinnaogbonna.codechallenge.util.RequirementNotMetException;
 import com.obinnaogbonna.codechallenge.util.ResourceNotFoundException;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 public interface TaskService {
@@ -14,5 +15,5 @@ public interface TaskService {
 
     public Task findByName(String name) throws ResourceNotFoundException;
 
-    public Integer getScore(TaskRequest data) throws IOException, RequirementNotMetException, ResourceNotFoundException;
+    public Integer getScore(TaskRequest data) throws IOException, RequirementNotMetException, ResourceNotFoundException, URISyntaxException, InterruptedException;
 }
