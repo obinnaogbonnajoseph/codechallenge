@@ -14,5 +14,8 @@ public class TasksTest {
     private TaskList taskList;
 
     @Test
-    void tasksAreLoaded() {assertEquals(taskList.getTasks().size(), 5);}
+    void tasksAreLoaded() {
+        assertEquals(taskList.getTasks().size(), 5);
+        assertEquals(taskList.getTasks().get(0).getType().getName(), "javascript");
+    }
 }

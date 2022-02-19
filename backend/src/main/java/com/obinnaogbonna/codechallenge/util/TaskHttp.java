@@ -19,16 +19,16 @@ public class TaskHttp {
     @Getter
     private String url;
 
-    public String getBody(String script) {
+    public String getBody(String script, String language) {
         return String.format(""" 
             {
                 "clientId": "%s",
                 "clientSecret": "%s",
                 "script": "%s",
-                "language": "java",
+                "language": "%s",
                 "versionIndex": "4"
             }
-        """, clientId, clientSecret, formatScript(script));
+        """, clientId, clientSecret, formatScript(script), language);
     }
 
     public String getBody() {

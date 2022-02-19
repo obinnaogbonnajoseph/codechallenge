@@ -2,8 +2,10 @@ package com.obinnaogbonna.codechallenge.service;
 
 import com.obinnaogbonna.codechallenge.entity.Task;
 import com.obinnaogbonna.codechallenge.repository.TaskRepository;
+import com.obinnaogbonna.codechallenge.util.CodeLanguage;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -39,7 +41,7 @@ public class DbInit {
                 }).toList();
         TaskRepository repo = this.persistenceService.getTaskRepository();
         tasks.forEach(task -> {
-            var optTask = Optional.ofNullable(repo.findByName(task.getName()));
+            var optTask = Optional.ofNullable(repo.findByNameAndType(task.getName(), task.getType()));
             if(optTask.isEmpty())
                 repo.save(task);
         });

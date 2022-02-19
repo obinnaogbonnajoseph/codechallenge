@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.obinnaogbonna.codechallenge.model.RequestDto;
+import com.obinnaogbonna.codechallenge.util.CodeLanguage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class ControllerIntegrationTest {
 
     @Test
     public void givenRequest_whenCorrectCode_thenStatus200() {
-        RequestDto dto = new RequestDto("Jude James", "CamelCase", getStarterCode());
+        RequestDto dto = new RequestDto("Jude James", "CamelCase", CodeLanguage.JAVA, getStarterCode());
         try {
             mockMvc.perform(
                     post("/task")

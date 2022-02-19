@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.obinnaogbonna.codechallenge.model.TaskHttpResponse;
 import com.obinnaogbonna.codechallenge.service.TaskHttpRequest;
 
+import com.obinnaogbonna.codechallenge.util.CodeLanguage;
 import com.obinnaogbonna.codechallenge.util.HttpMethod;
 import com.obinnaogbonna.codechallenge.util.TaskHttp;
 import lombok.AccessLevel;
@@ -32,13 +33,13 @@ public class TaskHttpRequestImpl extends TaskHttp implements TaskHttpRequest {
     }
 
     @Override
-    public TaskHttpResponse post(String script) throws IOException {
+    public TaskHttpResponse post(String script, CodeLanguage type) throws IOException {
         // setUrl
         this.setUrl(environment.getProperty("jdoodle.url"));
         // open connection
         HttpURLConnection hpCon = openConnection(HttpMethod.POST);
         // add body to post request
-        writePostBody(getBody(script), hpCon);
+        writePostBody(getBody(script, type.getName()), hpCon);
         return getOutput(hpCon);
     }
 

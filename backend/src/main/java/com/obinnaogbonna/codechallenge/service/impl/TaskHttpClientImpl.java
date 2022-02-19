@@ -3,6 +3,7 @@ package com.obinnaogbonna.codechallenge.service.impl;
 
 import com.obinnaogbonna.codechallenge.model.TaskHttpResponse;
 import com.obinnaogbonna.codechallenge.service.TaskHttpRequest;
+import com.obinnaogbonna.codechallenge.util.CodeLanguage;
 import com.obinnaogbonna.codechallenge.util.TaskHttp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -26,9 +27,9 @@ public class TaskHttpClientImpl extends TaskHttp implements TaskHttpRequest {
     }
 
     @Override
-    public TaskHttpResponse post(String script) throws IOException, URISyntaxException, InterruptedException {
+    public TaskHttpResponse post(String script, CodeLanguage type) throws IOException, URISyntaxException, InterruptedException {
         this.setUrl(environment.getProperty("jdoodle.url"));
-        var request = getRequest(script);
+        var request = getRequest(script, type);
         var response = getResponse(request);
         return convertStringToResponse(response.body());
     }
@@ -41,11 +42,11 @@ public class TaskHttpClientImpl extends TaskHttp implements TaskHttpRequest {
         return convertStringToResponse(response.body());
     }
 
-    private HttpRequest getRequest(String script) throws URISyntaxException {
+    private HttpRequest getRequest(String script, CodeLanguage type) throws URISyntaxException {
         return HttpRequest.newBuilder()
                 .uri(new URI(getUrl()))
                 .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(getBody(script)))
+                .POST(HttpRequest.BodyPublishers.ofString(getBody(script, type.getName())))
                 .build();
     }
 

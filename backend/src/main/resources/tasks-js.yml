@@ -1,0 +1,59 @@
+static:
+  tasks:
+    - name: CamelCase
+      type: javascript
+      description: >-
+        Convert given input to CamelCase. Code is written in JavaScript. Implement solution on the mySolution method.
+      starterCode: |-
+        function mySolution(val) {
+            return "";
+        }
+        console.log(mySolution("hello world"));
+      answer: Hello World
+    - name: Sort an Array
+      type: javascript
+      description: >-
+        Sort the given array in ascending order.
+        Return the last value in the sorted array.
+        Code is written in JavaScript. Implement solution on the mySolution method.
+      starterCode: |-
+        function mySolution(val) {
+            return "";
+        }
+        console.log(mySolution(["drone", "service", "item", "shield", "axe"]));
+      answer: shield
+    - name: Count Duplicates
+      type: javascript
+      description: >-
+        Count the duplicates in the array.
+        Return the number of duplicates in the array.
+        Code is written in JavaScript. Implement solution on the mySolution method.
+      starterCode: |-
+        function mySolution(val) {
+            return 0;
+        }
+        console.log(mySolution(["drone", "service", "item", "shield", "axe", "item", "service"]));
+      answer: 2
+    - name: Reverse a string
+      type: javascript
+      description: >-
+        Reverse the given string.
+        Return the reverse of the string.
+        Code is written in JavaScript. Implement solution on the mySolution method.
+      starterCode: |-
+        function mySolution(val) {
+            return "";
+        }
+        console.log(mySolution("hello world this is good"));
+      answer: doog si siht dlrow olleh
+    - name: Unicode Sum
+      type: javascript
+      description: >-
+        Return the unicode sum of all characters o the string.
+        Code is written in JavaScript. Implement solution on the mySolution method.
+      starterCode: |-
+        function mySolution(val) {
+            return 0;
+        }
+        console.log(mySolution("java"));
+      answer: 418

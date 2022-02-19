@@ -1,6 +1,7 @@
 static:
   tasks:
     - name: CamelCase
+      type: java
       description: >-
         Convert given input to CamelCase. Code is written in Java. Implement solution on the mySolution method.
       starterCode: |-
@@ -17,6 +18,7 @@ static:
         }
       answer: Hello World
     - name: Sort an Array
+      type: java
       description: >-
         Sort the given array in ascending order.
         Return the last value in the sorted array.
@@ -36,6 +38,7 @@ static:
         }
       answer: shield
     - name: Count Duplicates
+      type: java
       description: >-
         Count the duplicates in the array.
         Return the number of duplicates in the array.
@@ -55,6 +58,7 @@ static:
         }
       answer: 2
     - name: Reverse a string
+      type: java
       description: >-
         Reverse the given string.
         Return the reverse of the string.
@@ -73,6 +77,7 @@ static:
         }
       answer: doog si siht dlrow olleh
     - name: Unicode Sum
+      type: java
       description: >-
         Return the unicode sum of all characters o the string.
         Code is written in Java. Implement solution on the mySolution method.

@@ -6,6 +6,7 @@ import com.obinnaogbonna.codechallenge.model.TaskRequest;
 import com.obinnaogbonna.codechallenge.service.PersistenceService;
 import com.obinnaogbonna.codechallenge.service.TaskService;
 import com.obinnaogbonna.codechallenge.service.UtilService;
+import com.obinnaogbonna.codechallenge.util.CodeLanguage;
 import com.obinnaogbonna.codechallenge.util.RequirementNotMetException;
 import com.obinnaogbonna.codechallenge.util.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,18 +43,18 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task findByName(String name) throws ResourceNotFoundException {
+    public Task findByNameAndType(String name, CodeLanguage type) throws ResourceNotFoundException {
         return Optional.ofNullable(persistenceService.getTaskRepository()
-                .findByName(name))
+                .findByNameAndType(name, type))
                 .orElseThrow(() -> new ResourceNotFoundException("Task does not exist"));
     }
 
     @Override
     public Integer getScore(TaskRequest data) throws IOException, RequirementNotMetException, ResourceNotFoundException, URISyntaxException, InterruptedException {
         var taskRequest = this.utilService.getTaskHttpRequest();
-        var answer = Optional.of(persistenceService.getTaskRepository().findByName(data.getName()))
+        var answer = Optional.of(persistenceService.getTaskRepository().findByNameAndType(data.getName(), data.getType()))
                 .orElseThrow(() -> new ResourceNotFoundException("Task does not exist")).getAnswer();
-        var codeExecResponse = taskRequest.post(data.getCode());
+        var codeExecResponse = taskRequest.post(data.getCode(), data.getType());
         if(codeExecResponse.getStatusCode() == 200)
             return calculateScore(answer, codeExecResponse);
         else throw new RequirementNotMetException(codeExecResponse.getError());
