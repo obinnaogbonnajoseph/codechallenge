@@ -52,7 +52,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Integer getScore(TaskRequest data) throws IOException, RequirementNotMetException, ResourceNotFoundException, URISyntaxException, InterruptedException {
         var taskRequest = this.utilService.getTaskHttpRequest();
-        var answer = Optional.of(persistenceService.getTaskRepository().findByNameAndType(data.getName(), data.getType()))
+        var answer = Optional.ofNullable(persistenceService.getTaskRepository().findByNameAndType(data.getName(), data.getType()))
                 .orElseThrow(() -> new ResourceNotFoundException("Task does not exist")).getAnswer();
         var codeExecResponse = taskRequest.post(data.getCode(), data.getType());
         if(codeExecResponse.getStatusCode() == 200)

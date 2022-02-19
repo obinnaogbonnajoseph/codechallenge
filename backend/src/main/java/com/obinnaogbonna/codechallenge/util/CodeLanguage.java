@@ -4,7 +4,7 @@ import lombok.Getter;
 
 public enum CodeLanguage {
 
-    JAVA("java"), JAVASCRIPT("javascript");
+    JAVA("java"), NodeJS("nodejs");
 
     @Getter
     private String name;

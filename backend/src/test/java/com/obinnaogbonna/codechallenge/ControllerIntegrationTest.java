@@ -16,7 +16,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -32,13 +31,29 @@ public class ControllerIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    public void givenRequest_whenCorrectCode_thenStatus200() {
-        RequestDto dto = new RequestDto("Jude James", "CamelCase", CodeLanguage.JAVA, getStarterCode());
+    public void givenJavaRequest_whenCorrectCode_thenStatus200() {
+        RequestDto dto = new RequestDto("Jude James", "CamelCase", CodeLanguage.JAVA, getJavaStarterCode());
         try {
             mockMvc.perform(
-                    post("/task")
+                    post("/task/submit")
                             .content(testInsertObject(dto))
                             .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                    .andDo(print());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenNodejsRequest_whenCorrectCode_thenStatus200() {
+        RequestDto dto = new RequestDto("Chekwube James", "CamelCase", CodeLanguage.NodeJS, getJavaScriptStarterCode());
+        try {
+            mockMvc.perform(
+                            post("/task/submit")
+                                    .content(testInsertObject(dto))
+                                    .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                     .andDo(print());
@@ -69,7 +84,7 @@ public class ControllerIntegrationTest {
         return ow.writeValueAsString(obj);
     }
 
-    private String getStarterCode() {
+    private String getJavaStarterCode() {
         return """
                     public class MyImpl {
                           public String mySolution(String val) {
@@ -82,6 +97,18 @@ public class ControllerIntegrationTest {
                             System.out.println(val);
                           }
                     }
+                """;
+    }
+
+    private String getJavaScriptStarterCode() {
+        return """
+                      function mySolution(val) {
+                          return "Hello World";
+                      }
+                      function output() {
+                        console.log(mySolution("hello world"));
+                      }
+                      output();
                 """;
     }
 

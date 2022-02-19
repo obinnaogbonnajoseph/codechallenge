@@ -94,3 +94,75 @@ static:
           }
         }
       answer: 418
+    - name: CamelCase
+      type: nodejs
+      description: >-
+        Convert given input to CamelCase. Code is written in JavaScript. Implement solution on the mySolution method.
+      starterCode: |-
+        function mySolution(val) {
+            return "";
+        }
+        function output() {
+          console.log(mySolution("hello world"));
+        }
+        output();
+      answer: Hello World
+    - name: Sort an Array
+      type: nodejs
+      description: >-
+        Sort the given array in ascending order.
+        Return the last value in the sorted array.
+        Code is written in JavaScript. Implement solution on the mySolution method.
+      starterCode: |-
+        function mySolution(val) {
+            return "";
+        }
+        function output() {
+          console.log(mySolution(["drone", "service", "item", "shield", "axe"]));
+        }
+        output();
+      answer: shield
+    - name: Count Duplicates
+      type: nodejs
+      description: >-
+        Count the duplicates in the array.
+        Return the number of duplicates in the array.
+        Code is written in JavaScript. Implement solution on the mySolution method.
+      starterCode: |-
+        function mySolution(val) {
+            return 0;
+        }
+        function output() {
+          console.log(mySolution(["drone", "service", "item", "shield", "axe", "item", "service"]));
+        }
+        output();
+      answer: 2
+    - name: Reverse a string
+      type: nodejs
+      description: >-
+        Reverse the given string.
+        Return the reverse of the string.
+        Code is written in JavaScript. Implement solution on the mySolution method.
+      starterCode: |-
+        function mySolution(val) {
+            return "";
+        }
+        function output() {
+          console.log(mySolution("hello world this is good"));
+        }
+        output();
+      answer: doog si siht dlrow olleh
+    - name: Unicode Sum
+      type: nodejs
+      description: >-
+        Return the unicode sum of all characters o the string.
+        Code is written in JavaScript. Implement solution on the mySolution method.
+      starterCode: |-
+        function mySolution(val) {
+            return 0;
+        }
+        function output() {
+          console.log(mySolution("java"));
+        }
+        output();
+      answer: 418
