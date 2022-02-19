@@ -4,10 +4,7 @@ package com.obinnaogbonna.codechallenge.service.impl;
 import com.obinnaogbonna.codechallenge.model.TaskHttpResponse;
 import com.obinnaogbonna.codechallenge.service.TaskHttpRequest;
 import com.obinnaogbonna.codechallenge.util.TaskHttp;
-import lombok.AccessLevel;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +14,6 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 
 @Service
 public class TaskHttpClientImpl extends TaskHttp implements TaskHttpRequest {
