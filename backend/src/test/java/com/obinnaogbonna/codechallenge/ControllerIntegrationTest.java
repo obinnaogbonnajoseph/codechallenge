@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -32,7 +33,7 @@ public class ControllerIntegrationTest {
 
     @Test
     public void givenJavaRequest_whenCorrectCode_thenStatus200() {
-        RequestDto dto = new RequestDto("Jude James", "CamelCase", CodeLanguage.JAVA, getJavaStarterCode());
+        RequestDto dto = new RequestDto("Jude James", "CamelCase", CodeLanguage.JAVA, Constants.getJavaStarterCode());
         try {
             mockMvc.perform(
                     post("/task/submit")
@@ -42,13 +43,13 @@ public class ControllerIntegrationTest {
                     .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                     .andDo(print());
         } catch (Exception e) {
-            e.printStackTrace();
+            fail("Should not throw exception");
         }
     }
 
     @Test
     public void givenNodejsRequest_whenCorrectCode_thenStatus200() {
-        RequestDto dto = new RequestDto("Chekwube James", "CamelCase", CodeLanguage.NodeJS, getJavaScriptStarterCode());
+        RequestDto dto = new RequestDto("Chekwube James", "CamelCase", CodeLanguage.NodeJS, Constants.getJavaScriptStarterCode());
         try {
             mockMvc.perform(
                             post("/task/submit")
@@ -58,7 +59,7 @@ public class ControllerIntegrationTest {
                     .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                     .andDo(print());
         } catch (Exception e) {
-            e.printStackTrace();
+            fail("Should not throw exception");
         }
     }
 
@@ -73,7 +74,7 @@ public class ControllerIntegrationTest {
                     .andExpect(jsonPath("$.[0].name", is("CamelCase")))
                     .andDo(print());
         } catch (Exception e) {
-            e.printStackTrace();
+            fail("Should not throw exception");
         }
     }
 
@@ -82,34 +83,6 @@ public class ControllerIntegrationTest {
         objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
         ObjectWriter ow = objectMapper.writer().withDefaultPrettyPrinter();
         return ow.writeValueAsString(obj);
-    }
-
-    private String getJavaStarterCode() {
-        return """
-                    public class MyImpl {
-                          public String mySolution(String val) {
-                
-                              return "Hello World";
-                          }
-                
-                          public static void main(String[] args) {
-                            String val = new MyImpl().mySolution("hello world");
-                            System.out.println(val);
-                          }
-                    }
-                """;
-    }
-
-    private String getJavaScriptStarterCode() {
-        return """
-                      function mySolution(val) {
-                          return "Hello World";
-                      }
-                      function output() {
-                        console.log(mySolution("hello world"));
-                      }
-                      output();
-                """;
     }
 
 }
