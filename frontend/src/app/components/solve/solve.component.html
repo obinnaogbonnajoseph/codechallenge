@@ -14,7 +14,7 @@
         class="flex-1 border-2 border-emerald-400">
         <option defaultSelected>Select Task</option>
         <option [ngValue]="task"
-          *ngFor="let task of tasks">{{task.name}}</option>
+          *ngFor="let task of tasks">{{getTaskName(task)}}</option>
       </select>
     </label>
     <label class="flex flex-row justify-between gap-6 md:gap-14">

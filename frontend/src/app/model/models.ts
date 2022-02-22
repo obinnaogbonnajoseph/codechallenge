@@ -1,6 +1,7 @@
 export interface CodeTask {
   name: string;
   code: string;
+  type: string;
   description: string;
 }
 
@@ -8,6 +9,7 @@ export interface SubmitTask {
   userName: string;
   taskName: string;
   code: string;
+  type: string;
 }
 
 export interface User {
