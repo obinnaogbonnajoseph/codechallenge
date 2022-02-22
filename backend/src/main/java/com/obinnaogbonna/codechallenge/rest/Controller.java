@@ -60,12 +60,6 @@ public class Controller {
         return new ResponseEntity<>(tasksResponse, HttpStatus.OK);
     }
 
-    @GetMapping("languages")
-    public ResponseEntity<List<String>> languages() {
-        var languages = Arrays.stream(CodeLanguage.values()).map(CodeLanguage::getName).toList();
-        return ResponseEntity.ok(languages);
-    }
-
     @GetMapping("winners/{page}")
     public ResponseEntity<UsersResponse> winners(@PathVariable int page) {
         var usersResponse = this.userService.findAllAndSortByScore(page);
