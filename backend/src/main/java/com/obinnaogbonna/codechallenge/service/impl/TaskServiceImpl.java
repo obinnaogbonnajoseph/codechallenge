@@ -6,18 +6,22 @@ import com.obinnaogbonna.codechallenge.model.TaskRequest;
 import com.obinnaogbonna.codechallenge.service.PersistenceService;
 import com.obinnaogbonna.codechallenge.service.TaskService;
 import com.obinnaogbonna.codechallenge.service.UtilService;
+import com.obinnaogbonna.codechallenge.util.CodeLanguage;
 import com.obinnaogbonna.codechallenge.util.RequirementNotMetException;
 import com.obinnaogbonna.codechallenge.util.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class TaskServiceImpl implements TaskService {
 
     private final UtilService utilService;
@@ -41,27 +45,21 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task findByName(String name) throws ResourceNotFoundException {
+    public Task findByNameAndType(String name, CodeLanguage type) throws ResourceNotFoundException {
         return Optional.ofNullable(persistenceService.getTaskRepository()
-                .findByName(name))
+                .findByNameAndType(name, type))
                 .orElseThrow(() -> new ResourceNotFoundException("Task does not exist"));
     }
 
     @Override
-    public Integer getScore(TaskRequest data) throws IOException, RequirementNotMetException, ResourceNotFoundException {
+    public Integer getScore(TaskRequest data) throws IOException, RequirementNotMetException, ResourceNotFoundException, URISyntaxException, InterruptedException {
         var taskRequest = this.utilService.getTaskHttpRequest();
-        var creditSpent = taskRequest.creditSpent();
-        if(creditSpent.getUsed() != null) {
-            if(creditSpent.getUsed() >= 200)
-                throw new RequirementNotMetException("Free credit use exceeded");
-            var answer = Optional.of(persistenceService.getTaskRepository().findByName(data.getName()))
-                    .orElseThrow(() -> new ResourceNotFoundException("Task does not exist")).getAnswer();
-            var codeExecResponse = taskRequest.post(data.getCode());
-            if(codeExecResponse.getStatusCode() == 200)
-                return calculateScore(answer, codeExecResponse);
-            else throw new RequirementNotMetException(codeExecResponse.getError());
-        }
-        throw new RequirementNotMetException("Could not process answer. Free credits could not be determined");
+        var answer = Optional.ofNullable(persistenceService.getTaskRepository().findByNameAndType(data.getName(), data.getType()))
+                .orElseThrow(() -> new ResourceNotFoundException("Task does not exist")).getAnswer();
+        var codeExecResponse = taskRequest.post(data.getCode(), data.getType());
+        if(codeExecResponse.getStatusCode() == 200)
+            return calculateScore(answer, codeExecResponse);
+        else throw new RequirementNotMetException(codeExecResponse.getError());
     }
 
     private Integer calculateScore(String answer, TaskHttpResponse response) {

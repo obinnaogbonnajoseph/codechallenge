@@ -3,6 +3,7 @@ package com.obinnaogbonna.codechallenge.entity;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.obinnaogbonna.codechallenge.util.CodeLanguage;
 import lombok.*;
 
 import java.util.List;
@@ -24,6 +25,10 @@ public class Task {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private CodeLanguage type;
 
     @Lob
     @Column(name = "initCode")

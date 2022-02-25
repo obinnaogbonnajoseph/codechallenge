@@ -26,7 +26,7 @@ export class ComponentService {
   }
 
   submit(data: SubmitTask): Observable<any> {
-    return this.httpClient.post<any>(this.url, data)
+    return this.httpClient.post<any>(`${this.url}submit`, data)
   }
 
 }

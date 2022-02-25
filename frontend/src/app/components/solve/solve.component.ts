@@ -1,3 +1,4 @@
+import { TitleCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -48,13 +49,18 @@ export class SolveComponent implements OnInit {
     this.componentService.getTasks().subscribe(tasks => this.tasks = tasks)
   }
 
+  getTaskName(task: CodeTask): string {
+    return `${task.name} (${new TitleCasePipe().transform(task.type)})`
+  }
+
   submit() {
     this.submitText = '...Submitting'
     localStorage.setItem('username', this.form.get('username')?.value)
     const data: SubmitTask = {
       userName: this.form.get('username')?.value ?? '',
-      taskName: this.form.get('task')?.value?.name ?? '',
-      code: this.form.get('code')?.value ?? ''
+      taskName: this.task?.name ?? '',
+      code: this.form.get('code')?.value ?? '',
+      type: this.task?.type
     }
     this.componentService.submit(data).subscribe({
       complete: () => this.router.navigate(['/result']),
@@ -71,6 +77,10 @@ export class SolveComponent implements OnInit {
 
   get username() {
     return localStorage.getItem('username') ?? '';
+  }
+
+  get task(): CodeTask {
+    return this.form.get('task')?.value
   }
 
 }
