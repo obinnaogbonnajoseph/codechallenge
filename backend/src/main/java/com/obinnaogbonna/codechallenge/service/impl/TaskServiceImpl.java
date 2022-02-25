@@ -11,6 +11,7 @@ import com.obinnaogbonna.codechallenge.util.RequirementNotMetException;
 import com.obinnaogbonna.codechallenge.util.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -20,6 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class TaskServiceImpl implements TaskService {
 
     private final UtilService utilService;

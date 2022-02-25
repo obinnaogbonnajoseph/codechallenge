@@ -102,7 +102,12 @@
 			<artifactId>ehcache</artifactId>
 			<version>3.9.9</version>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.3.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -125,6 +130,7 @@
 				<version>3.0.4</version>
 			</plugin>
 		</plugins>
+		<finalName>code-challenge</finalName>
 	</build>
 
 </project>
