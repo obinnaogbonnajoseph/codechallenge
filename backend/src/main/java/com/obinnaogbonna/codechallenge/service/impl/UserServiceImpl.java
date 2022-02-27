@@ -2,11 +2,12 @@ package com.obinnaogbonna.codechallenge.service.impl;
 
 import com.obinnaogbonna.codechallenge.entity.Task;
 import com.obinnaogbonna.codechallenge.entity.User;
-import com.obinnaogbonna.codechallenge.model.UserRequest;
-import com.obinnaogbonna.codechallenge.model.UserResponse;
-import com.obinnaogbonna.codechallenge.model.UsersResponse;
+import com.obinnaogbonna.codechallenge.model.*;
 import com.obinnaogbonna.codechallenge.service.PersistenceService;
+import com.obinnaogbonna.codechallenge.service.TaskService;
 import com.obinnaogbonna.codechallenge.service.UserService;
+import com.obinnaogbonna.codechallenge.util.RequirementNotMetException;
+import com.obinnaogbonna.codechallenge.util.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -14,7 +15,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +26,9 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final PersistenceService persistenceService;
+
+    @Autowired
+    public TaskService taskService;
 
     private final ModelMapper modelMapper;
 
@@ -49,7 +55,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(UserRequest data) {
+    public void processSubmission(RequestDto dto) throws IOException, URISyntaxException, ResourceNotFoundException, InterruptedException, RequirementNotMetException {
+        UserRequest userRequest = new UserRequest(dto.getUserName(), 0, Collections.emptyList());
+        TaskRequest taskRequest = new TaskRequest(dto.getTaskName(), dto.getType(), dto.getCode(), "");
+        if(isNewTask(userRequest.getName(), taskRequest.getName())) {
+            Integer score = taskService.getScore(taskRequest);
+            Task task = taskService.findByNameAndType(dto.getTaskName(), dto.getType());
+            userRequest.setTasks(Collections.singletonList(task));
+            userRequest.setScore(score);
+            update(userRequest);
+        }
+    }
+
+    private User update(UserRequest data) {
         var repo = persistenceService.getUserRepository();
         var optUser = Optional.ofNullable(repo.findByName(data.getName()));
         User user;
@@ -66,8 +84,7 @@ public class UserServiceImpl implements UserService {
         return repo.save(user);
     }
 
-    @Override
-    public boolean isNewTask(String username, String taskName) {
+    private boolean isNewTask(String username, String taskName) {
         var repo = persistenceService.getUserRepository();
         boolean isNewUser = Optional.ofNullable(repo.findByName(username)).isEmpty();
         if(!isNewUser) {

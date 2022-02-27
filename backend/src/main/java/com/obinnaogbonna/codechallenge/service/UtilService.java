@@ -1,7 +1,6 @@
 package com.obinnaogbonna.codechallenge.service;
 
 import com.obinnaogbonna.codechallenge.service.impl.TaskHttpClientImpl;
-import com.obinnaogbonna.codechallenge.service.impl.TaskHttpRequestImpl;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
